@@ -28,7 +28,7 @@ namespace MassRecord.Models
             _TransformBlock = new TransformBlock<T, T>(
                 x =>
                 {
-                    var webSvc = new BaseRepository().UpdateEntity(x);
+                    var webSvc = new BaseRepository<T>()
                     x.Response = webSvc;
                     return x;
                 },

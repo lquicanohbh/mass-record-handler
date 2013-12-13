@@ -7,7 +7,7 @@ using MassRecord.Models;
 
 namespace MassRecord.Repositories
 {
-    public class ClientDemographicsRepository : BaseRepository, IUpdatable
+    public class ClientDemographicsRepository : BaseRepository<ClientDemographicsRepository>, IUpdatable
     {
         private CustomClientDemo _CustomClientDemo;
         private BaseConfiguration _Settings;
