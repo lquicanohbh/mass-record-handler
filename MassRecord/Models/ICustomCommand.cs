@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MassRecord.Models
 {
-    public class CustomClientResponse
+    public interface ICustomCommand
     {
-        public ClientDemographics.WebServiceResponse WebResponse { get; set; }
-        public string ClientId { get; set; }
+        void ExecuteCommand();
     }
 }

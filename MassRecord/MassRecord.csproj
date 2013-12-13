@@ -112,10 +112,17 @@
     </Compile>
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ValueName.cs" />
-    <Compile Include="Models\CustomClientResponse.cs" />
+    <Compile Include="Models\BaseConfiguration.cs" />
+    <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\CustomClientDemo.cs" />
+    <Compile Include="Models\ICustomCommand.cs" />
     <Compile Include="Models\FileAction.cs" />
     <Compile Include="Models\FileType.cs" />
+    <Compile Include="Models\OpenFileDialogCommand.cs" />
+    <Compile Include="Models\ProcessRecordsCommand.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\ClientDemographicsRepository.cs" />
+    <Compile Include="Repositories\IUpdatable.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MyViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

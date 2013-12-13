@@ -21,11 +21,11 @@ namespace MassRecord.ViewModel
         public ICollection<ValueName> FileActions { get; private set; }
         #endregion
 
+        #region Properties
         public static RelayCommand OpenFileCommand { get; set; }
         public static RelayCommand ProcessFileCommand { get; set; }
 
         private string _RecordsProcessed;
-
         public string RecordsProcessed
         {
             get { return _RecordsProcessed; }
@@ -36,9 +36,7 @@ namespace MassRecord.ViewModel
             }
         }
 
-
         private string _SelectedPath;
-
         public string SelectedPath
         {
             get { return _SelectedPath; }
@@ -50,7 +48,6 @@ namespace MassRecord.ViewModel
         }
 
         private FileType _SelectedFileType;
-
         public FileType SelectedFileType
         {
             get { return _SelectedFileType; }
@@ -63,27 +60,27 @@ namespace MassRecord.ViewModel
             }
         }
 
-        public FileAction GetAction()
-        {
-            return new FileAction();
-        }
-
-        public FileAction SelectedAction { get; set; }
-
         private string _DefaultPath;
-
         public string DefaultPath
         {
             get { return _DefaultPath; }
             set { _DefaultPath = value; }
         }
 
+        public FileAction SelectedAction { get; set; }
+        #endregion
+
+        #region Constructors and Initializers
         public MyViewModel()
         {
             RegisterCommands();
             InitializeComboBoxes();
         }
-
+        private void RegisterCommands()
+        {
+            OpenFileCommand = new RelayCommand(new OpenFileDialogCommand(DefaultPath).ExecuteCommand);
+            ProcessFileCommand = new RelayCommand(ProcessFile);
+        }
         private void InitializeComboBoxes()
         {
             this.FileTypes = new List<FileType>()
@@ -125,34 +122,36 @@ namespace MassRecord.ViewModel
                 }
             };
         }
+        #endregion
 
-        private void RegisterCommands()
+        #region Methods
+        public FileAction GetAction()
         {
-            OpenFileCommand = new RelayCommand(ExecuteOpenFileDialog);
-            ProcessFileCommand = new RelayCommand(ProcessFile);
+            return new FileAction();
         }
+        #endregion
 
         private void ProcessFile()
         {
-            TransformBlock<CustomClientDemo, CustomClientResponse> transformBlock =
-                new TransformBlock<CustomClientDemo, CustomClientResponse>(
+            TransformBlock<CustomClientDemo, CustomClientDemo> transformBlock =
+                new TransformBlock<CustomClientDemo, CustomClientDemo>(
                     clientDemo =>
                     {
                         var webSvc = new ClientDemographics.ClientDemographics().UpdateClientDemographics(
-                            "LIVE", "ODBC", "hotwire2011", clientDemo.ClientDemographics, clientDemo.ClientId);
-                        var response = new CustomClientResponse { ClientId = clientDemo.ClientId };
-                        response.WebResponse = webSvc;
-                        return response;
+                            "LIVE", "ODBC", "hotwire2011", clientDemo.ClientDemographics, clientDemo.EntityId);
+                        clientDemo.WebResponse = webSvc;
+                        return clientDemo;
+
                     },
                     new ExecutionDataflowBlockOptions
                     {
                         MaxDegreeOfParallelism = 20
                     });
 
-            ActionBlock<CustomClientResponse> notificationBlock = new ActionBlock<CustomClientResponse>(
+            ActionBlock<CustomClientDemo> notificationBlock = new ActionBlock<CustomClientDemo>(
                 webSvcResponse =>
                 {
-                    RecordsProcessed += String.Format("Client {0}: {1}\r\n", webSvcResponse.ClientId, webSvcResponse.WebResponse.Message);
+                    RecordsProcessed += String.Format("Client {0}: {1}\r\n", webSvcResponse.EntityId, webSvcResponse.WebResponse.Message);
                 },
                 new ExecutionDataflowBlockOptions
                 {
@@ -178,7 +177,7 @@ namespace MassRecord.ViewModel
                     var tempObj = allText[i].Split('|');
                     clientList.Add(new CustomClientDemo
                     {
-                        ClientId = tempObj[0],
+                        EntityId = tempObj[0],
                         ClientDemographics = new ClientDemographics.ClientDemographicsObject()
                         {
                             Alias9 = tempObj[1]
@@ -191,12 +190,6 @@ namespace MassRecord.ViewModel
             {
                 throw new ArgumentOutOfRangeException("Incorrect number of parameters.");
             }
-        }
-        private void ExecuteOpenFileDialog()
-        {
-            var dialog = new OpenFileDialog { InitialDirectory = DefaultPath };
-            dialog.ShowDialog();
-            SelectedPath = dialog.FileName;
         }
     }
 }
