@@ -25,6 +25,19 @@ namespace MassRecord.ViewModel
         public static RelayCommand OpenFileCommand { get; set; }
         public static RelayCommand ProcessFileCommand { get; set; }
 
+        private double _CurrentProgress;
+
+        public double CurrentProgress
+        {
+            get { return _CurrentProgress; }
+            set
+            {
+                _CurrentProgress = value;
+                RaisePropertyChanged("CurrentProgress");
+            }
+        }
+
+
         private string _RecordsProcessed;
         public string RecordsProcessed
         {
@@ -78,7 +91,7 @@ namespace MassRecord.ViewModel
         }
         private void RegisterCommands()
         {
-            OpenFileCommand = new RelayCommand(new OpenFileDialogCommand(DefaultPath).ExecuteCommand);
+            OpenFileCommand = new RelayCommand(OpenFileDialog);
             ProcessFileCommand = new RelayCommand(ProcessFile);
         }
         private void InitializeComboBoxes()
@@ -131,6 +144,20 @@ namespace MassRecord.ViewModel
         }
         #endregion
 
+        private void OpenFileDialog()
+        {
+            var dialog = new OpenFileDialog() { InitialDirectory = DefaultPath };
+            try
+            {
+                dialog.ShowDialog();
+            }
+            catch (Exception)
+            {
+                throw new InvalidOperationException("Unable to execute OpenFileDialog");
+            }
+            SelectedPath = dialog.FileName;
+        }
+
         private void ProcessFile()
         {
             TransformBlock<CustomClientDemo, CustomClientDemo> transformBlock =
@@ -138,7 +165,7 @@ namespace MassRecord.ViewModel
                     clientDemo =>
                     {
                         var webSvc = new ClientDemographics.ClientDemographics().UpdateClientDemographics(
-                            "LIVE", "ODBC", "hotwire2011", clientDemo.ClientDemographics, clientDemo.EntityId);
+                            "LIVE", "LQUICANO", "tinchair719", clientDemo.ClientDemographics, clientDemo.EntityId);
                         clientDemo.WebResponse = webSvc;
                         return clientDemo;
 
@@ -151,7 +178,9 @@ namespace MassRecord.ViewModel
             ActionBlock<CustomClientDemo> notificationBlock = new ActionBlock<CustomClientDemo>(
                 webSvcResponse =>
                 {
-                    RecordsProcessed += String.Format("Client {0}: {1}\r\n", webSvcResponse.EntityId, webSvcResponse.WebResponse.Message);
+                    if (webSvcResponse.WebResponse.Status == 0)
+                        RecordsProcessed += String.Format("Client {0}: {1}\r\n", webSvcResponse.EntityId, webSvcResponse.WebResponse.Message);
+                    CurrentProgress = webSvcResponse.RecordNumber;
                 },
                 new ExecutionDataflowBlockOptions
                 {
@@ -180,8 +209,9 @@ namespace MassRecord.ViewModel
                         EntityId = tempObj[0],
                         ClientDemographics = new ClientDemographics.ClientDemographicsObject()
                         {
-                            Alias9 = tempObj[1]
-                        }
+                            Alias10 = tempObj[1]
+                        },
+                        RecordNumber = (i + 1)
                     });
                 }
                 return clientList;

@@ -37,6 +37,6 @@
             <TextBlock Text="{Binding RecordsProcessed}"/>
         </ScrollViewer>
 
-        <ProgressBar Name="uxProgressBar" Grid.Row="4" Grid.Column="0" Margin="10,10,10,10" Grid.ColumnSpan="4"/>
+        <ProgressBar Value="{Binding CurrentProgress}" Name="uxProgressBar" Grid.Row="4" Grid.Column="0" Margin="10,10,10,10" Grid.ColumnSpan="4"/>
     </Grid>
 </Window>
