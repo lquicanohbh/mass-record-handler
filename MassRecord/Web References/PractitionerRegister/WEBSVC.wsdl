@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:s0="http://tempuri.org" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://tempuri.org" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org">
+      <s:element name="EditPractitionerRegister">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="SystemCode" type="s:string" />
+            <s:element minOccurs="0" name="UserName" type="s:string" />
+            <s:element minOccurs="0" name="Password" type="s:string" />
+            <s:element minOccurs="0" name="PractitionerRegistration" type="s0:PractitionerRegistrationObject" />
+            <s:element minOccurs="0" name="PractitionerID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PractitionerRegistrationObject">
+        <s:sequence>
+          <s:element minOccurs="0" name="BeeperNumber" type="s:string" />
+          <s:element minOccurs="0" name="CategoriesForCoverage" type="s:string" />
+          <s:element minOccurs="0" name="CellPhone" type="s:string" />
+          <s:element minOccurs="0" name="DateOfBirth" type="s:date" />
+          <s:element minOccurs="0" name="Discipline" type="s:string" />
+          <s:element minOccurs="0" name="EducationLevel" type="s:string" />
+          <s:element minOccurs="0" name="EthnicOrigin" type="s:string" />
+          <s:element minOccurs="0" name="HomeCity" type="s:string" />
+          <s:element minOccurs="0" name="HomePhone" type="s:string" />
+          <s:element minOccurs="0" name="HomeState" type="s:string" />
+          <s:element minOccurs="0" name="HomeStreet" type="s:string" />
+          <s:element minOccurs="0" name="HomeZipCode" type="s:string" />
+          <s:element minOccurs="0" name="LocatedInMedOfficeBuilding" type="s:string" />
+          <s:element minOccurs="0" name="Name" type="s:string" />
+          <s:element minOccurs="0" name="OfficeAddressCity" type="s:string" />
+          <s:element minOccurs="0" name="OfficeAddressState" type="s:string" />
+          <s:element minOccurs="0" name="OfficeAddressStreet" type="s:string" />
+          <s:element minOccurs="0" name="OfficeAddressZipCode" type="s:string" />
+          <s:element minOccurs="0" name="OfficeTelephone1" type="s:string" />
+          <s:element minOccurs="0" name="OfficeTelephone2" type="s:string" />
+          <s:element minOccurs="0" name="PractitionerCategory" type="s:string" />
+          <s:element minOccurs="0" name="PractitionerCredentials" type="s:string" />
+          <s:element minOccurs="0" name="PractitionerSubType" type="s:string" />
+          <s:element minOccurs="0" name="PractitionerType" type="s:string" />
+          <s:element minOccurs="0" name="RegistrationDate" type="s:date" />
+          <s:element minOccurs="0" name="Sex" type="s:string" />
+          <s:element minOccurs="0" name="ARRAReportableMeasures" type="s:string" />
+          <s:element minOccurs="0" name="ARRAPractitionerType" type="s:string" />
+          <s:element minOccurs="0" name="NPINumber" type="s:string" />
+          <s:element minOccurs="0" name="TaxonomyCode" type="s:string" />
+          <s:element minOccurs="0" name="PractitionerLanguage" type="s:string" />
+          <s:element minOccurs="0" name="ExcludeFromCalendar" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="EditPractitionerRegisterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="EditPractitionerRegisterResult" type="s0:WebServiceResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="WebServiceResponse">
+        <s:sequence>
+          <s:element minOccurs="0" name="Confirmation" type="s:string" />
+          <s:element minOccurs="0" name="Message" type="s:string" />
+          <s:element minOccurs="0" name="ResponseCode" type="s:string" />
+          <s:element minOccurs="0" name="ResponseObjects" type="s0:ArrayOfResponseObjectResponseObject" />
+          <s:element minOccurs="0" name="Status" type="s:long" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfResponseObjectResponseObject">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ResponseObject" nillable="true" type="s0:ResponseObject" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ResponseObject">
+        <s:sequence>
+          <s:element minOccurs="0" name="Confirmation" type="s:string" />
+          <s:element minOccurs="0" name="Message" type="s:string" />
+          <s:element minOccurs="0" name="Status" type="s:long" />
+          <s:element minOccurs="0" name="ResponseCode" type="s:string" />
+          <s:element minOccurs="0" name="UniqueID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetDictionaryItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="SystemCode" type="s:string" />
+            <s:element minOccurs="0" name="UserName" type="s:string" />
+            <s:element minOccurs="0" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDictionaryItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetDictionaryItemsResult" type="s0:ArrayOfDictionaryItemObjectDictionaryItemObject" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfDictionaryItemObjectDictionaryItemObject">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DictionaryItemObject" nillable="true" type="s0:DictionaryItemObject" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DictionaryItemObject">
+        <s:sequence>
+          <s:element minOccurs="0" name="DictionaryCode" type="s:string" />
+          <s:element minOccurs="0" name="DictionaryFieldDescription" type="s:string" />
+          <s:element minOccurs="0" name="DictionaryUniqueId" type="s:string" />
+          <s:element minOccurs="0" name="DictionaryValue" type="s:string" />
+          <s:element minOccurs="0" name="Mesg" type="s:string" />
+          <s:element minOccurs="0" name="Status" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PractitionerRegister">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="SystemCode" type="s:string" />
+            <s:element minOccurs="0" name="UserName" type="s:string" />
+            <s:element minOccurs="0" name="Password" type="s:string" />
+            <s:element minOccurs="0" name="PractitionerRegistration" type="s0:PractitionerRegistrationObject" />
+            <s:element minOccurs="0" name="PractitionerID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PractitionerRegisterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="PractitionerRegisterResult" type="s0:WebServiceResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePractitionerInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="SystemCode" type="s:string" />
+            <s:element minOccurs="0" name="UserName" type="s:string" />
+            <s:element minOccurs="0" name="Password" type="s:string" />
+            <s:element minOccurs="0" name="PractitionerInformation" type="s0:PractitionerInformationObject" />
+            <s:element minOccurs="0" name="PractitionerID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PractitionerInformationObject">
+        <s:sequence>
+          <s:element minOccurs="0" name="DEAExpirationDate" type="s:date" />
+          <s:element minOccurs="0" name="DEALicenseNumber" type="s:string" />
+          <s:element minOccurs="0" name="SocialSecurityNumber" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdatePractitionerInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="UpdatePractitionerInformationResult" type="s0:WebServiceResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="EditPractitionerRegisterSoapIn">
+    <wsdl:part name="parameters" element="s0:EditPractitionerRegister" />
+  </wsdl:message>
+  <wsdl:message name="EditPractitionerRegisterSoapOut">
+    <wsdl:part name="parameters" element="s0:EditPractitionerRegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDictionaryItemsSoapIn">
+    <wsdl:part name="parameters" element="s0:GetDictionaryItems" />
+  </wsdl:message>
+  <wsdl:message name="GetDictionaryItemsSoapOut">
+    <wsdl:part name="parameters" element="s0:GetDictionaryItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="PractitionerRegisterSoapIn">
+    <wsdl:part name="parameters" element="s0:PractitionerRegister" />
+  </wsdl:message>
+  <wsdl:message name="PractitionerRegisterSoapOut">
+    <wsdl:part name="parameters" element="s0:PractitionerRegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePractitionerInformationSoapIn">
+    <wsdl:part name="parameters" element="s0:UpdatePractitionerInformation" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePractitionerInformationSoapOut">
+    <wsdl:part name="parameters" element="s0:UpdatePractitionerInformationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebServicesSoap">
+    <wsdl:operation name="EditPractitionerRegister">
+      <wsdl:input message="s0:EditPractitionerRegisterSoapIn" />
+      <wsdl:output message="s0:EditPractitionerRegisterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryItems">
+      <wsdl:input message="s0:GetDictionaryItemsSoapIn" />
+      <wsdl:output message="s0:GetDictionaryItemsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PractitionerRegister">
+      <wsdl:input message="s0:PractitionerRegisterSoapIn" />
+      <wsdl:output message="s0:PractitionerRegisterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePractitionerInformation">
+      <wsdl:input message="s0:UpdatePractitionerInformationSoapIn" />
+      <wsdl:output message="s0:UpdatePractitionerInformationSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServicesSoap" type="s0:WebServicesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="EditPractitionerRegister">
+      <soap:operation soapAction="http://tempuri.org/WEBSVC.PractitionerRegister.EditPractitionerRegister" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDictionaryItems">
+      <soap:operation soapAction="http://tempuri.org/WEBSVC.PractitionerRegister.GetDictionaryItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PractitionerRegister">
+      <soap:operation soapAction="http://tempuri.org/WEBSVC.PractitionerRegister.PractitionerRegister" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePractitionerInformation">
+      <soap:operation soapAction="http://tempuri.org/WEBSVC.PractitionerRegister.UpdatePractitionerInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebServices">
+    <wsdl:port name="WebServicesSoap" binding="s0:WebServicesSoap">
+      <soap:address location="http://avprdb2:8972/csp/hmhcpmlive/WEBSVC.PractitionerRegister.cls" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

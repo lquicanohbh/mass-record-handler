@@ -10,6 +10,9 @@ using Microsoft.Win32;
 using System.Threading.Tasks.Dataflow;
 using System.Threading.Tasks;
 using System.IO;
+using MassRecord.Models.Interfaces;
+using MassRecord.Repositories;
+using System.Threading;
 
 
 namespace MassRecord.ViewModel
@@ -17,6 +20,7 @@ namespace MassRecord.ViewModel
     public class MyViewModel : ViewModelBase
     {
         #region ComboBoxes
+
         public ICollection<FileType> FileTypes { get; private set; }
         public ICollection<ValueName> FileActions { get; private set; }
         #endregion
@@ -80,7 +84,18 @@ namespace MassRecord.ViewModel
             set { _DefaultPath = value; }
         }
 
-        public FileAction SelectedAction { get; set; }
+        private ValueName _SelectedAction;
+        public ValueName SelectedAction
+        {
+            get { return _SelectedAction; }
+            set
+            {
+                _SelectedAction = value;
+                RaisePropertyChanged("SelectedAction");
+            }
+        }
+
+        private BaseConfiguration BaseConfiguration { get; set; }
         #endregion
 
         #region Constructors and Initializers
@@ -88,6 +103,7 @@ namespace MassRecord.ViewModel
         {
             RegisterCommands();
             InitializeComboBoxes();
+            InitializeConfiguration();
         }
         private void RegisterCommands()
         {
@@ -132,7 +148,28 @@ namespace MassRecord.ViewModel
                         new FileAction() { Action = CustomAction.Delete},
                         new FileAction() {Action = CustomAction.ResetPassword}
                     }
+                },
+                new FileType()
+                {
+                    Description = "Practitioner Registration",
+                    Code = "PRACT",
+                    FileActions = new List<FileAction>()
+                    {
+                        new FileAction() { Action = CustomAction.None},
+                        new FileAction() { Action = CustomAction.Add},
+                        new FileAction() {Action = CustomAction.Edit}
+                    }
                 }
+            };
+            FileTypes = FileTypes.OrderBy(x => x.Description).ToList();
+        }
+        private void InitializeConfiguration()
+        {
+            BaseConfiguration = new BaseConfiguration
+            {
+                SystemCode = "LIVE",
+                UserName = "LQUICANO",
+                Password = "tinchair719"
             };
         }
         #endregion
@@ -160,66 +197,41 @@ namespace MassRecord.ViewModel
 
         private void ProcessFile()
         {
-            TransformBlock<CustomClientDemo, CustomClientDemo> transformBlock =
-                new TransformBlock<CustomClientDemo, CustomClientDemo>(
-                    clientDemo =>
-                    {
-                        var webSvc = new ClientDemographics.ClientDemographics().UpdateClientDemographics(
-                            "LIVE", "LQUICANO", "tinchair719", clientDemo.ClientDemographics, clientDemo.EntityId);
-                        clientDemo.WebResponse = webSvc;
-                        return clientDemo;
-
-                    },
-                    new ExecutionDataflowBlockOptions
-                    {
-                        MaxDegreeOfParallelism = 20
-                    });
-
-            ActionBlock<CustomClientDemo> notificationBlock = new ActionBlock<CustomClientDemo>(
-                webSvcResponse =>
-                {
-                    if (webSvcResponse.WebResponse.Status == 0)
-                        RecordsProcessed += String.Format("Client {0}: {1}\r\n", webSvcResponse.EntityId, webSvcResponse.WebResponse.Message);
-                    CurrentProgress = webSvcResponse.RecordNumber;
-                },
-                new ExecutionDataflowBlockOptions
-                {
-                    TaskScheduler = TaskScheduler.FromCurrentSynchronizationContext()
-                });
-
-            transformBlock.LinkTo(notificationBlock);
-
-            var clients = getAllClients();
-            foreach (var client in clients)
+            ResetValues();
+            var records = ReadAllRecords();
+            ProgressHelper.TotalClients = records.Count;
+            foreach (var record in records)
             {
-                transformBlock.Post(client);
+                IRepository entityRep = RepositoryFactory.GetRepository(BaseConfiguration, this, _SelectedFileType.Code);
+                switch ((CustomAction)_SelectedAction.Value)
+                {
+                    case CustomAction.Add:
+                        entityRep.Add(record);
+                        break;
+                    case CustomAction.Edit:
+                        entityRep.Edit(record);
+                        break;
+                    case CustomAction.Delete:
+                        entityRep.Delete(record);
+                        break;
+                    case CustomAction.ResetPassword:
+                        entityRep.ResetPassword(record);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-        public List<CustomClientDemo> getAllClients()
+
+        private List<object> ReadAllRecords()
         {
-            try
-            {
-                string[] allText = File.ReadAllLines(_SelectedPath);
-                var clientList = new List<CustomClientDemo>();
-                for (int i = 0; i < allText.Length; i++)
-                {
-                    var tempObj = allText[i].Split('|');
-                    clientList.Add(new CustomClientDemo
-                    {
-                        EntityId = tempObj[0],
-                        ClientDemographics = new ClientDemographics.ClientDemographicsObject()
-                        {
-                            Alias10 = tempObj[1]
-                        },
-                        RecordNumber = (i + 1)
-                    });
-                }
-                return clientList;
-            }
-            catch (Exception)
-            {
-                throw new ArgumentOutOfRangeException("Incorrect number of parameters.");
-            }
+            IRepository repository = RepositoryFactory.GetRepository(BaseConfiguration, this, _SelectedFileType.Code);
+            return repository.GetAllEntities(IOHelper.ReadFile(_SelectedPath));
+        }
+
+        private void ResetValues()
+        {
+            ProgressHelper.ResetAll();
         }
     }
 }

@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace MassRecord.Models
 {
-    public class BaseEntity
+    public class CustomClientAppointments : BaseEntity
     {
-        public string EntityId { get; set; }
     }
 }

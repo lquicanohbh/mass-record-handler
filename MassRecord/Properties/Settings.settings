@@ -3,7 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="MassRecord_ClientDemographics_ClientDemographics" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://avprdb2:8972/csp/hmhcpmlive/WEBSVC.ClientDemographics.cls</Value>
+      <Value Profile="(Default)">http://avtest:8972/csp/hmhcpmlive/WEBSVC.ClientDemographics.cls</Value>
+    </Setting>
+    <Setting Name="MassRecord_PractitionerRegister_WebServices" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://avprdb2:8972/csp/hmhcpmlive/WEBSVC.PractitionerRegister.cls</Value>
     </Setting>
   </Settings>
 </SettingsFile>

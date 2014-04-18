@@ -110,19 +110,28 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\ClassHelper.cs" />
+    <Compile Include="Helpers\ConvertHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\IOHelper.cs" />
+    <Compile Include="Helpers\ProgressHelper.cs" />
     <Compile Include="Helpers\ValueName.cs" />
     <Compile Include="Models\BaseConfiguration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
-    <Compile Include="Models\CustomClientDemo.cs" />
-    <Compile Include="Models\ICustomCommand.cs" />
+    <Compile Include="Models\CustomClientAppointments.cs" />
+    <Compile Include="Models\CustomClientDemographics.cs" />
+    <Compile Include="Models\CustomPractitionerRegistration.cs" />
+    <Compile Include="Models\Interfaces\ICustomCommand.cs" />
     <Compile Include="Models\FileAction.cs" />
     <Compile Include="Models\FileType.cs" />
-    <Compile Include="Models\Interfaces\ICustomAction.cs" />
-    <Compile Include="Models\Interfaces\IFileAction.cs" />
-    <Compile Include="Models\Interfaces\IFileType.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\ClientAppointmentsRepository.cs" />
+    <Compile Include="Repositories\IClientDemographicsRepository.cs" />
+    <Compile Include="Repositories\IPractitionerRegistrationRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Models\OpenFileDialogCommand.cs" />
+    <Compile Include="Repositories\ClientDemographicsRepository.cs" />
+    <Compile Include="Repositories\PractitionerRegistrationRepository.cs" />
+    <Compile Include="Repositories\RepositoryFactory.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MyViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -130,6 +139,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Web References\ClientDemographics\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\PractitionerRegister\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -170,6 +184,17 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\ClientDemographics\WEBSVC.wsdl" />
+    <None Include="Web References\PractitionerRegister\DictionaryItemObject.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\PractitionerRegister\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\PractitionerRegister\WebServiceResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\PractitionerRegister\WEBSVC.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -189,10 +214,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://avprdb2:8972/csp/HMHCPMLIVE/WEBSVC.ClientDemographics.CLS%3fWSDL=1">
+    <WebReferenceUrl Include="http://avtest:8972/csp/HMHCPMLIVE/WEBSVC.ClientDemographics.CLS%3fWSDL=1">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\ClientDemographics\</RelPath>
-      <UpdateFromURL>http://avprdb2:8972/csp/HMHCPMLIVE/WEBSVC.ClientDemographics.CLS%3fWSDL=1</UpdateFromURL>
+      <UpdateFromURL>http://avtest:8972/csp/HMHCPMLIVE/WEBSVC.ClientDemographics.CLS%3fWSDL=1</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -200,10 +225,19 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>MassRecord_ClientDemographics_ClientDemographics</CachedSettingsPropName>
     </WebReferenceUrl>
+    <WebReferenceUrl Include="http://avprdb2:8972/csp/hmhcpmlive/WEBSVC.PractitionerRegister.CLS%3fWSDL=1">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\PractitionerRegister\</RelPath>
+      <UpdateFromURL>http://avprdb2:8972/csp/hmhcpmlive/WEBSVC.PractitionerRegister.CLS%3fWSDL=1</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>MassRecord_PractitionerRegister_WebServices</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

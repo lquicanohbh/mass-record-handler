@@ -299,7 +299,7 @@
   </wsdl:binding>
   <wsdl:service name="ClientDemographics">
     <wsdl:port name="ClientDemographicsSoap" binding="s0:ClientDemographicsSoap">
-      <soap:address location="http://avprdb2:8972/csp/hmhcpmlive/WEBSVC.ClientDemographics.cls" />
+      <soap:address location="http://avtest:8972/csp/hmhcpmlive/WEBSVC.ClientDemographics.cls" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
